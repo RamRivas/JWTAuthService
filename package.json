@@ -1,0 +1,63 @@
+{
+  "name": "jwtauthservice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "format": "npx prettier --write .",
+    "dev": "ts-node-dev app.ts",
+    "start": "node build/app.js",
+    "tsc": "tsc"
+  },
+  "keywords": [],
+  "author": "Benjamin Ramirez",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/nodemailer": "^6.4.7",
+    "@types/pg": "^8.6.6",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "4.18.2",
+    "nodemailer": "^6.9.1",
+    "pg": "^8.9.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.4.0",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.14.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "eslint": "8.34.0",
+    "jest": "^29.4.3",
+    "morgan": "^1.10.0",
+    "prettier": "2.8.4",
+    "ts-jest": "^29.0.5",
+    "ts-node-dev": "2.0.0",
+    "typescript": "4.9.5"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      "/build/"
+    ],
+    "forceExit": true
+  },
+  "description": "Authentication service developed using the JWT strategy for websites",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamRivas/JwtAuthService.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RamRivas/JwtAuthService/issues"
+  },
+  "homepage": "https://github.com/RamRivas/JwtAuthService#readme"
+}
