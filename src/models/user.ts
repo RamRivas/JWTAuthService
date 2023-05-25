@@ -15,6 +15,7 @@ import {
 } from '../services/queryDesigner';
 import { compare } from 'bcrypt';
 import { rowsAffectedCounter } from '../services/general';
+import { signUser } from './token';
 
 export const signUp = async (
     userToInsert: UserForInsertion
@@ -173,6 +174,7 @@ export const signIn = async (
 ): Promise<SignInResponse> => {
     const client: PoolClient = await pool.connect();
     try {
+        client.query('BEGIN');
         const { user_name, pwd } = credentials;
         const filters: Array<FilterParameter> = [
             {
@@ -184,7 +186,7 @@ export const signIn = async (
         const query: PreparedQuery = prepareSelectQuery(
             'user',
             'Login',
-            ['user_name', 'pwd', 'forgot_pwd'],
+            ['user_id', 'user_name', 'pwd', 'forgot_pwd'],
             filters
         );
         const result: QueryResult = await client.query(query);
@@ -193,6 +195,7 @@ export const signIn = async (
             success: false,
             message: '',
             forgot_pwd: 0,
+            tokens: {},
         };
 
         if (result.rowCount > 0) {
@@ -201,6 +204,7 @@ export const signIn = async (
                 signInResponse.success = true;
                 signInResponse.message = 'Now you are logged in';
                 signInResponse.forgot_pwd = result.rows[0].forgot_pwd;
+                signInResponse.tokens = await signUser(result.rows[0], client);
             } else {
                 signInResponse.success = false;
                 signInResponse.message = 'The given password is incorrect';
@@ -213,13 +217,17 @@ export const signIn = async (
                 "The given username doesn't exists in our database";
             delete signInResponse.forgot_pwd;
         }
+        await client.query('COMMIT');
 
         return signInResponse;
     } catch (error) {
+        await client.query('ROLLBACK');
         if (error instanceof Error) {
             throw error;
         } else {
             throw new Error('Unexpected error');
         }
+    } finally {
+        client.release();
     }
 };

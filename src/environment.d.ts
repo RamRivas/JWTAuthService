@@ -1,3 +1,5 @@
+import { Secret } from 'jsonwebtoken';
+
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -12,9 +14,9 @@ declare global {
             CONNECTIONTIMEOUTMILLIS: number;
             SENDER_EMAIL: string;
             SENDER_PWD: string;
-            SALT_ROUNDS: number;
-            ACCESS_TOKEN_SECRET: string;
-            REFRESH_TOKEN_SECRET: string;
+            SALT_ROUNDS: string;
+            ACCESS_TOKEN_SECRET: Secret;
+            REFRESH_TOKEN_SECRET: Secret;
         }
     }
 }

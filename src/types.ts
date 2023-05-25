@@ -1,3 +1,5 @@
+import { Secret } from 'jsonwebtoken';
+
 export interface Role {
     role_id: number;
     role_name: string;
@@ -24,6 +26,7 @@ export type SignInResponse = {
     success: boolean;
     message: string;
     forgot_pwd?: number;
+    tokens: object;
 };
 
 export enum LogicOperator {
@@ -50,13 +53,22 @@ export type JoinParameter = {
 };
 
 export interface Token {
+    token_id: number;
     refresh_token: string;
     token_status: number;
+    user_id: number;
     creation_date: Date;
 }
+
+export type TokenForInsertion = Omit<Token, 'token_id' | 'token_status'>;
 
 export type PreparedQuery = {
     name: string;
     text: string;
     values: Array<any>;
+};
+
+export type Credentials = {
+    accessToken: string;
+    refreshToken: string;
 };

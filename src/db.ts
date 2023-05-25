@@ -1,22 +1,22 @@
 import { Pool } from 'pg';
 import {
-    host,
-    user,
-    password,
-    database,
-    max,
-    idleTimeoutMillis,
-    connectionTimeoutMillis,
+    HOST,
+    USER,
+    PASSWORD,
+    DATABASE,
+    MAX,
+    IDLETIMEOUTMILLIS,
+    CONNECTIONTIMEOUTMILLIS,
 } from './config';
 
 export const pool: Pool = new Pool({
-    host,
-    user,
-    password,
-    database,
-    max: max as unknown as number,
-    idleTimeoutMillis: idleTimeoutMillis as unknown as number,
-    connectionTimeoutMillis: connectionTimeoutMillis as unknown as number,
+    host: HOST,
+    user: USER,
+    password: PASSWORD,
+    database: DATABASE,
+    max: MAX as unknown as number,
+    idleTimeoutMillis: IDLETIMEOUTMILLIS as unknown as number,
+    connectionTimeoutMillis: CONNECTIONTIMEOUTMILLIS as unknown as number,
 });
 
 // export const pool: Pool = new Pool(DBConfig);

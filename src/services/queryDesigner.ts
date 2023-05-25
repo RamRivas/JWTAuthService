@@ -36,6 +36,25 @@ export const columnsCallback = (
         )}`;
 };
 
+export const columnsCallbackForInset = (
+    columns: KeyValuePair[],
+    index: number
+): string => {
+    const { key } = columns[index];
+    return index + 1 === columns.length
+        ? `${key}`
+        : `${key}, ${columnsCallbackForInset(columns, index + 1)}`;
+};
+
+export const valuesCallback = (
+    columns: KeyValuePair[],
+    index: number
+): string => {
+    return index + 1 === columns.length
+        ? `$${index + 1}`
+        : `$${index + 1}, ${valuesCallback(columns, index + 1)}`;
+};
+
 export const joinsCallback = (
     joins: Array<JoinParameter>,
     index: number
@@ -131,4 +150,36 @@ export const prepareUpdateQuery = (
     };
 
     return preparedQuery;
+};
+
+export const prepareInsertQuery = (
+    name: string,
+    insertValues: Array<KeyValuePair>,
+    tableName: string
+): PreparedQuery => {
+    try {
+        const text = `INSERT INTO "${tableName}" (${columnsCallbackForInset(
+            insertValues,
+            0
+        )}) VALUES(${valuesCallback(insertValues, 0)})`;
+        const values = [];
+
+        for (const element of insertValues) {
+            values.push(element.value);
+        }
+
+        return {
+            name,
+            text,
+            values,
+        };
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(
+                `The current error ocurred while trying to prepare an insert statement: ${error.message}`
+            );
+        } else {
+            throw new Error('Unexpected Error');
+        }
+    }
 };
