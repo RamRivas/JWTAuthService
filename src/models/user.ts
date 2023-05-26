@@ -10,6 +10,7 @@ import {
 import { pool } from '../db';
 import { PoolClient, QueryResult } from 'pg';
 import {
+    endTransaction,
     prepareSelectQuery,
     prepareUpdateQuery,
 } from '../services/queryDesigner';
@@ -33,7 +34,7 @@ export const signUp = async (
 
         const result: QueryResult = await client.query(prepQuery);
 
-        await client.query('COMMIT');
+        await endTransaction(client);
 
         return result;
     } catch (error) {
@@ -217,7 +218,8 @@ export const signIn = async (
                 "The given username doesn't exists in our database";
             delete signInResponse.forgot_pwd;
         }
-        await client.query('COMMIT');
+        
+        await endTransaction(client);
 
         return signInResponse;
     } catch (error) {

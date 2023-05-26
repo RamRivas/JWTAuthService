@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const {
+export const {
     PORT,
     CTX,
     HOST,
@@ -19,23 +19,3 @@ const {
     REFRESH_TOKEN_SECRET,
     TEST_MODE
 } = process.env;
-
-console.log(TEST_MODE);
-
-export {
-    PORT,
-    CTX,
-    HOST,
-    USER,
-    PASSWORD,
-    DATABASE,
-    MAX,
-    IDLETIMEOUTMILLIS,
-    CONNECTIONTIMEOUTMILLIS,
-    SENDER_EMAIL,
-    SENDER_PWD,
-    SALT_ROUNDS,
-    ACCESS_TOKEN_SECRET,
-    REFRESH_TOKEN_SECRET,
-    TEST_MODE
-};
