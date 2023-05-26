@@ -51,7 +51,10 @@
             "/test/",
             "/build/"
         ],
-        "forceExit": true
+        "forceExit": true,
+        "setupFiles": [
+            "<rootDir>/.jest/setEnvVars.js"
+        ]
     },
     "description": "Authentication service developed using the JWT strategy for websites",
     "repository": {

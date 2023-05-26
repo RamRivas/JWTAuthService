@@ -17,6 +17,7 @@ declare global {
             SALT_ROUNDS: string;
             ACCESS_TOKEN_SECRET: Secret;
             REFRESH_TOKEN_SECRET: Secret;
+            TEST_MODE: number;
         }
     }
 }

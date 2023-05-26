@@ -1,9 +1,11 @@
+import { PoolClient } from 'pg';
 import {
     FilterParameter,
     JoinParameter,
     PreparedQuery,
     KeyValuePair,
 } from '../types';
+import { CTX, TEST_MODE } from '../config';
 
 export const filtersCallback = (
     filters: Array<FilterParameter>,
@@ -174,6 +176,24 @@ export const prepareInsertQuery = (
             values,
         };
     } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(
+                `The current error ocurred while trying to prepare an insert statement: ${error.message}`
+            );
+        } else {
+            throw new Error('Unexpected Error');
+        }
+    }
+};
+
+
+export const endTransaction = async (client: PoolClient) => {
+    try {
+        TEST_MODE 
+            ? await client.query('ROLLBACK')
+            : await client.query('COMMIT');
+    } catch (error) {
+        CTX === 'dev' && console.log(error);
         if (error instanceof Error) {
             throw new Error(
                 `The current error ocurred while trying to prepare an insert statement: ${error.message}`
